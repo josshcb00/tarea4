@@ -241,6 +241,13 @@ orq &lt;-
 cat(&quot;Cantidad de registros después de descartar los NA de especies: &quot;, nrow(orq)) </code></pre>
 <pre><code>## Cantidad de registros después de descartar los NA de especies:  671</code></pre>
 </div>
+<div id="filtrar-datos-necesarios" class="section level2">
+<h2>Filtrar datos necesarios</h2>
+<pre class="r"><code>asp &lt;-
+  asp %&gt;%
+  filter(!descripcio == &quot;Area Marina de Manejo&quot;) %&gt;%
+filter(!descripcio == &quot;Area marina protegida&quot;)</code></pre>
+</div>
 
 
 

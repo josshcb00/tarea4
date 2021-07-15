@@ -78,5 +78,14 @@ orq <-
   na.omit(species)
 cat("Cantidad de registros después de descartar los NA de especies: ", nrow(orq)) 
 ```
+## Filtrar datos necesarios
+
+```{r filtrar datos}
+asp <-
+  asp %>%
+  filter(!descripcio == "Area Marina de Manejo") %>%
+filter(!descripcio == "Area marina protegida")
+```
+
 
 
