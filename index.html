@@ -171,13 +171,16 @@ pre code {
 </div>
 
 
-<p>##Carga librerías</p>
+<div id="carga-librerías" class="section level2">
+<h2>Carga librerías</h2>
 <pre class="r"><code>library(sf)
 library (raster)
 library(leaflet)
 library(leaflet.extras)
 library(dplyr)</code></pre>
-<p>##Carga datos</p>
+</div>
+<div id="carga-datos" class="section level2">
+<h2>Carga datos</h2>
 <pre class="r"><code># Carga de orquideas
 orq &lt;-
   st_read(
@@ -213,6 +216,31 @@ provincias &lt;-
     &quot;https://raw.githubusercontent.com/gf0604-procesamientodatosgeograficos/2021i-datos/main/ign/delimitacion-territorial-administrativa/cr_provincias_simp_wgs84.geojson&quot;,
     quiet = TRUE
   )</code></pre>
+</div>
+<div id="cambiar-tipos-de-datos-y-eliminar-datos-innecesarios" class="section level2">
+<h2>Cambiar tipos de datos y eliminar datos innecesarios</h2>
+<pre class="r"><code>#Cambiar datos a numéricos
+orq &lt;-
+  orq %&gt;%
+  mutate(coordinateUncertaintyInMeters = as.numeric(coordinateUncertaintyInMeters)) %&gt;%
+  mutate (eventDate = as.Date(eventDate, &quot;%Y-%m-%d&quot;))
+
+#Eliminar datos inncesarios
+cat(&quot;Cantidad original de registros: &quot;, nrow(orq))</code></pre>
+<pre><code>## Cantidad original de registros:  29863</code></pre>
+<pre class="r"><code>orq &lt;-
+  orq %&gt;%
+  filter((coordinateUncertaintyInMeters) &amp; coordinateUncertaintyInMeters &lt;= 1000)
+
+cat(&quot;Cantidad de registros después de descartar los datos de alta incertidumbre en la ubicación &gt;1000 : &quot;, nrow(orq))</code></pre>
+<pre><code>## Cantidad de registros después de descartar los datos de alta incertidumbre en la ubicación &gt;1000 :  677</code></pre>
+<pre class="r"><code># Descartar registros especies NA
+orq &lt;-
+  orq %&gt;%
+  na.omit(species)
+cat(&quot;Cantidad de registros después de descartar los NA de especies: &quot;, nrow(orq)) </code></pre>
+<pre><code>## Cantidad de registros después de descartar los NA de especies:  671</code></pre>
+</div>
 
 
 

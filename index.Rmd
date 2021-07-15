@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-##Carga librerías
+## Carga librerías
 ```{r carga paquetes, message=FALSE, warning=FALSE}
 library(sf)
 library (raster)
@@ -16,7 +16,7 @@ library(leaflet)
 library(leaflet.extras)
 library(dplyr)
 ```
-##Carga datos
+## Carga datos
 ```{r carega datos, message=FALSE, warning=FALSE}
 # Carga de orquideas
 orq <-
@@ -54,3 +54,29 @@ provincias <-
     quiet = TRUE
   )
 ```
+
+## Cambiar tipos de datos y eliminar datos innecesarios
+```{r eliminar datos}
+#Cambiar datos a numéricos
+orq <-
+  orq %>%
+  mutate(coordinateUncertaintyInMeters = as.numeric(coordinateUncertaintyInMeters)) %>%
+  mutate (eventDate = as.Date(eventDate, "%Y-%m-%d"))
+
+#Eliminar datos inncesarios
+cat("Cantidad original de registros: ", nrow(orq))
+
+orq <-
+  orq %>%
+  filter((coordinateUncertaintyInMeters) & coordinateUncertaintyInMeters <= 1000)
+
+cat("Cantidad de registros después de descartar los datos de alta incertidumbre en la ubicación >1000 : ", nrow(orq))
+
+# Descartar registros especies NA
+orq <-
+  orq %>%
+  na.omit(species)
+cat("Cantidad de registros después de descartar los NA de especies: ", nrow(orq)) 
+```
+
+
