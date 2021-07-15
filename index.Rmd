@@ -55,6 +55,7 @@ provincias <-
   )
 ```
 
+
 ## Cambiar tipos de datos y eliminar datos innecesarios
 ```{r eliminar datos}
 #Cambiar datos a numéricos
@@ -84,8 +85,29 @@ cat("Cantidad de registros después de descartar los NA de especies: ", nrow(orq
 asp <-
   asp %>%
   filter(!descripcio == "Area Marina de Manejo") %>%
-filter(!descripcio == "Area marina protegida")
+  filter(!descripcio == "Area marina protegida")
+```
+## Crear data frame de resultados y agregar cantones y provincias
+```{r dataframe }
+aspul <- 
+  asp %>%
+  select(descripcio)%>%
+  st_make_valid(cantones["provincia"])%>%
+  st_make_valid(cantones["canton"])
 ```
 
+```{r agregar cantones y provincias}
+aspul <- 
+  aspul %>%
+  st_join(cantones["provincia"])%>%
+  st_join(cantones["canton"])
+```
+
+
+## Mapa leaflet
+```{r mleaflet}
+
+
+```
 
 

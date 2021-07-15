@@ -246,7 +246,22 @@ cat(&quot;Cantidad de registros después de descartar los NA de especies: &quot;
 <pre class="r"><code>asp &lt;-
   asp %&gt;%
   filter(!descripcio == &quot;Area Marina de Manejo&quot;) %&gt;%
-filter(!descripcio == &quot;Area marina protegida&quot;)</code></pre>
+  filter(!descripcio == &quot;Area marina protegida&quot;)</code></pre>
+</div>
+<div id="crear-data-frame-de-resultados-y-agregar-cantones-y-provincias" class="section level2">
+<h2>Crear data frame de resultados y agregar cantones y provincias</h2>
+<pre class="r"><code>aspul &lt;- 
+  asp %&gt;%
+  select(descripcio)%&gt;%
+  st_make_valid(cantones[&quot;provincia&quot;])%&gt;%
+  st_make_valid(cantones[&quot;canton&quot;])</code></pre>
+<pre class="r"><code>aspul &lt;- 
+  aspul %&gt;%
+  st_join(cantones[&quot;provincia&quot;])%&gt;%
+  st_join(cantones[&quot;canton&quot;])</code></pre>
+</div>
+<div id="mapa-leaflet" class="section level2">
+<h2>Mapa leaflet</h2>
 </div>
 
 
